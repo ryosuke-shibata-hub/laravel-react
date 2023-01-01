@@ -1,5 +1,7 @@
+
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Button } from '@mui/material'; //Buttonをインポート
 
 function Example() {
     return (
@@ -7,9 +9,10 @@ function Example() {
             <div className="row justify-content-center">
                 <div className="col-md-8">
                     <div className="card">
-                        <div className="card-header">React導入できたわな？？</div>
+                        <div className="card-header">React導入できたわな</div>
 
-                        <div className="card-body">I'm an example component!</div>
+                        <div className="card-body">Im an example component!</div>
+                        <Button color="error" variant="contained">Hello World</Button>
                     </div>
                 </div>
             </div>
@@ -20,11 +23,5 @@ function Example() {
 export default Example;
 
 if (document.getElementById('app')) {
-    const Index = ReactDOM.createRoot(document.getElementById("app"));
-
-    Index.render(
-        <React.StrictMode>
-            <Example />
-        </React.StrictMode>
-    )
+    ReactDOM.render(<Example />, document.getElementById('app'));
 }
