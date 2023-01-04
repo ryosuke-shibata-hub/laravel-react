@@ -25,6 +25,14 @@ Route::group(['middleware' => 'api'], function()
 {
    Route::get('/api/posts', [PostController::class, 'index'])
    ->name('index');
+   Route::POST('/api/posts/create', [PostController::class, 'create'])
+   ->name('create');
+   Route::post('/api/posts/edit', [PostController::class, 'edit'])
+   ->name('edit');
+   Route::post('/api/posts/update', [PostController::class, 'update'])
+   ->name('update');
+   Route::post('/api/posts/delete', [PostController::class, 'delete'])
+   ->name('delete');
 });
 
 Route::get('{any}', function () {
