@@ -1,22 +1,7 @@
-// import React from 'react';
-// import ReactDOM from 'react-dom';
-// import { Button, Card } from '@material-ui/core';
-
-// function Home() {
-//     return (
-//         <div className="container">
-//             <Card>
-//                 <Button color="primary" variant="contained" href={`/example`}>Exampleに遷移</Button>
-//             </Card>
-//         </div>
-//     );
-// }
-
-// export default Home;
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { Button, Card } from "@material-ui/core";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
-import purple from "@material-ui/core/colors/purple";
 import MainTable from "../components/MainTable";
 
 ///スタイルの定義
@@ -29,24 +14,42 @@ const useStyles = makeStyles((theme) => createStyles({
 
 //ヘッダーコンテンツ用の配列定義
 const headerList = ['名前', 'タスク内容', '編集', '完了'];
-//リファクタリング後のrowsの中身
-let rows = [
-    {
-        name: "モーリー",
-        content: "肩トレ",
-        editBtn: <Button color="secondary" variant="contained">編集</Button>,
-        deleteBtn: <Button color="primary" variant="contained">完了</Button>,
-    },
-    {
-        name: "ドンキーコングだお",
-        content: "バナナ補給",
-        editBtn: <Button color="secondary" variant="contained">編集</Button>,
-        deleteBtn: <Button color="primary" variant="contained">完了</Button>,
-    }
-]
+
 function Home() {
     //定義したスタイルを使用するための設定
     const classes = useStyles();
+
+    //postsの状態を管理する
+    const [posts, setPosts] = useState([]);
+
+    //画面に到着したらgetPostsDataを呼ぶ
+    useEffect(() => {
+        getPostsData();
+    }, [])
+
+    //一覧情報を取得しステートpostsにセットする
+    const getPostsData = () => {
+        axios
+            .get('/api/posts')
+            .then(response => {
+                setPosts(response.data);
+            })
+            .catch(() => {
+                console.log('通信に失敗しました');
+            });
+    }
+    //空配列として定義する
+    let rows = [];
+    //postsの要素ごとにrowsで使える形式に変換する
+    posts.map((post) =>
+        rows.push({
+            name: post.name,
+            content: post.content,
+            editBtn: <Button color="secondary" variant="contained">編集</Button>,
+            deleteBtn: <Button color="primary" variant="contained">完了</Button>,
+        })
+    );
+
 
     return (
         <div className="p-5">
